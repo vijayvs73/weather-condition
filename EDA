@@ -4,3 +4,48 @@ library(ggplot2)
 str(weather)
 head(weather)
 summary(weather)
+
+head(weather)
+
+# Check for missing values
+colSums(is.na(weather))
+
+# Visualize the distribution of each numeric variable
+numeric_vars <- sapply(weather, is.numeric)
+weather.numeric<- weather[, numeric_vars]
+
+# Check for missing values
+missing_values <- sapply(weather, function(x) sum(is.na(x)))
+missing_values
+
+# Handle missing values (e.g., by removing rows with missing values)
+cleaned_data <- na.omit(weather)
+
+# Ensure Season is a categorical variable (replace 'Season' with the actual column name)
+weather$Season<- as.factor(weather$Season)
+
+# boxplot
+ggplot(weather, aes(x =Season, y =Humidity)) +
+  geom_boxplot(fill = "orange", color = "black") +
+  theme_minimal() +
+  labs(title = "Boxplot of Humidity by Season", x= "season", y= "humidity")
+
+# Histogram for a numeric variable (replace 'temp' with an appropriate column name)
+ggplot(weather, aes(x = Temperature)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  theme_minimal() +
+  labs(title = "Histogram of Temperature", x = "Temperature", y = "Frequency")
+
+# Scatter plot to show the relationship between two numeric variables (replace 'temp' and 'humidity' with appropriate column names)
+ggplot(weather, aes(x = Temperature, y = Humidity)) +
+  geom_point(color = "red") +
+  theme_minimal() +
+  labs(title = "Scatter Plot of Temperature vs Humidity", x = "Temperature", y = "Humidity")
+
+# Time series plot for a variable over time (replace 'date' and 'temp' with appropriate column names)
+ggplot(weather, aes(x = Location , y = Temperature)) +
+  geom_line(color = "") +
+  theme_minimal() +
+  labs(title = "Time Series of Temperature", x = "location", y = "Temperature")
+
+
